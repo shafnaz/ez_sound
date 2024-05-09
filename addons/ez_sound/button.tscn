@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://cgvxc3xe4do8w"]
+
+[ext_resource type="SystemFont" uid="uid://byg5ahufgk4gv" path="res://addons/ez_sound/font_bold.tres" id="1_cpnr8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_31411"]
+content_margin_left = 50.0
+content_margin_top = 10.0
+content_margin_right = 50.0
+content_margin_bottom = 10.0
+bg_color = Color(0.186329, 0.525247, 0.341074, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yq4nf"]
+content_margin_left = 50.0
+content_margin_top = 10.0
+content_margin_right = 50.0
+content_margin_bottom = 10.0
+bg_color = Color(0.207914, 0.579086, 0.377557, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4nc4j"]
+content_margin_left = 50.0
+content_margin_top = 10.0
+content_margin_right = 50.0
+content_margin_bottom = 10.0
+bg_color = Color(0.186329, 0.525247, 0.341074, 1)
+
+[node name="btn" type="Button"]
+auto_translate_mode = 1
+focus_mode = 0
+theme_override_fonts/font = ExtResource("1_cpnr8")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/hover = SubResource("StyleBoxFlat_31411")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_yq4nf")
+theme_override_styles/normal = SubResource("StyleBoxFlat_4nc4j")
+text = "Set Sounds Folder"

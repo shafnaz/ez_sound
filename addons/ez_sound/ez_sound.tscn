@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://efjgpm38t0s0"]
+
+[ext_resource type="Script" path="res://addons/ez_sound/ez_sound.gd" id="1_owafh"]
+
+[node name="ez_sound" type="Node"]
+script = ExtResource("1_owafh")
+
+[node name="tracks_sfx" type="Node" parent="."]
+
+[node name="track_music" type="Node" parent="."]

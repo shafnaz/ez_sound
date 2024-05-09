@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://5qae42odcd51"]
+
+[ext_resource type="Script" path="res://addons/ez_sound/popup_label.gd" id="1_17yc1"]
+
+[node name="Label" type="Label"]
+top_level = true
+z_index = 1
+z_as_relative = false
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.607843)
+theme_override_font_sizes/font_size = 20
+text = "test"
+script = ExtResource("1_17yc1")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
