@@ -4,27 +4,23 @@ extends Control
 @onready var sound_list = $"%sound_list"
 @onready var sp = $"%sp"
 @onready var tree = $"%tree"
-var draggable = preload("res://addons/ez_sound/draggable.tscn")
 @onready var btn_reload = %btn_reload
 @onready var button_copy = %button_copy
-
-var scripteditor : Node
-var plugin : EditorPlugin = null
 @onready var stream_bar = %stream_bar
 @onready var scroll = %scroll
-
-var selected_sound_button = null
-var selected_sound_filename = ""
-
 @onready var filedialog = %filedialog
-
-var btn_group = ButtonGroup.new()
 @onready var label_dir = %label_dir
 @onready var btn_dir = %btn_dir
 @onready var label_no_dir = %label_no_dir
 @onready var label_no_sounds = %label_no_sounds
+
+const DRAGGABLE = preload("res://addons/ez_sound/draggable.tscn")
 const POPUP_LABEL = preload("res://addons/ez_sound/popup_label.tscn")
 const USER_SETTING_PATH = "ez_sound/ez_sound_path"
+
+var selected_sound_button = null
+var selected_sound_filename = ""
+var btn_group = ButtonGroup.new()
 
 
 func show_popup_message(pos, message):
@@ -114,7 +110,7 @@ func _process(_delta):
 
 
 func create_sound_button(display_name, file_path, extension):
-	var inst = draggable.instantiate()
+	var inst = DRAGGABLE.instantiate()
 	sound_list.add_child(inst)
 	inst.label.text = display_name
 	inst.connect("pressed", Callable(self, "_on_sound_button_pressed").bind(inst, file_path))
