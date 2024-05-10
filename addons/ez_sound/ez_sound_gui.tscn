@@ -103,7 +103,7 @@ theme_override_colors/font_color = Color(0.28119, 0.779158, 0.510497, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.32549)
 theme_override_fonts/font = ExtResource("3_oxv0x")
 theme_override_font_sizes/font_size = 15
-text = "res://sounds/"
+text = "res://addons/"
 horizontal_alignment = 1
 
 [node name="scroll" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
@@ -132,7 +132,6 @@ horizontal_alignment = 1
 [node name="label_no_sounds" type="Label" parent="MarginContainer/VBoxContainer/scroll/VBoxContainer"]
 unique_name_in_owner = true
 auto_translate_mode = 1
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.938671, 0.117006, 0.20342, 1)
