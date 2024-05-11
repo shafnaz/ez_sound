@@ -56,11 +56,10 @@ func get_current_music() -> AudioStreamPlayer:
 
 
 func play_sfx(filename, start_at = 0,  volume_db : float = 0, pitch_scale : float = 1.0):
-	await get_tree().process_frame # in case this method is called right after fade_out_current_music, so that this track does not get deleted too.
 	var new_audiostream = AudioStreamPlayer.new()
 	tracks_sfx.add_child(new_audiostream)
-	new_audiostream.set_pitch_scale(clamp(pitch_scale, 0.5, 2))
 	new_audiostream.volume_db = volume_db
+	new_audiostream.set_pitch_scale(pitch_scale)
 	new_audiostream.finished.connect(new_audiostream.queue_free)
 	new_audiostream.stream = load(dir + filename)
 	new_audiostream.play(start_at)

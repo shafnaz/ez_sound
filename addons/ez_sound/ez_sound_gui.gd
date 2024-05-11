@@ -33,7 +33,7 @@ func show_popup_message(pos, message):
 func _ready():
 	set_process(false)
 	filedialog.hide()
-	filedialog.dir_selected.connect(_on_dialog_dir_selected)
+	filedialog.dir_selected.connect(_on_dir_selected)
 	btn_reload.pressed.connect(_on_reload_pressed)
 	button_copy.pressed.connect(_on_copy_pressed)
 	btn_dir.pressed.connect(_on_set_dir_pressed)
@@ -41,26 +41,20 @@ func _ready():
 	self.resized.connect(update_stream_bar)
 	scroll.scroll_started.connect(update_stream_bar)
 	scroll.scroll_ended.connect(update_stream_bar)
-	label_dir.text = ProjectSettings.get_setting(USER_SETTING_PATH, "res://addons/ez_sound/test_files/")
+	label_dir.text = ProjectSettings.get_setting(USER_SETTING_PATH, "No Sounds Dir Set")
 	_on_reload_pressed()
 	pass
-
 
 func _on_set_dir_pressed():
 	filedialog.show()
 	return
 
 
-func _on_dialog_dir_selected(v:String):
+func _on_dir_selected(v:String):
 	if not v.ends_with("/"):
 		v = v + "/"
 	label_dir.text = v
 	ProjectSettings.set_setting(USER_SETTING_PATH, v)
-	var _err = ProjectSettings.save()
-	if _err != OK:
-		print("Failed to save sound dir in ProjectSettings. err code: ", _err)
-	else:
-		print("Sound dir set to: ", v)
 	_on_reload_pressed()
 
 
