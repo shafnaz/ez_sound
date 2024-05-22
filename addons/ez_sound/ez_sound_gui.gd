@@ -3,8 +3,8 @@ extends Control
 
 @onready var sound_list = $"%sound_list"
 @onready var sp = $"%sp"
-@onready var tree = $"%tree"
 @onready var btn_reload = %btn_reload
+@onready var button_pause = %button_pause
 @onready var button_copy = %button_copy
 @onready var stream_bar = %stream_bar
 @onready var scroll = %scroll
@@ -13,10 +13,16 @@ extends Control
 @onready var btn_dir = %btn_dir
 @onready var label_no_dir = %label_no_dir
 @onready var label_no_sounds = %label_no_sounds
+@onready var button_pitch_randomize = %button_pitch_randomize
+@onready var spin_pitch_min = %spin_pitch_min
+@onready var spin_pitch_max = %spin_pitch_max
 
 const DRAGGABLE = preload("res://addons/ez_sound/draggable.tscn")
 const POPUP_LABEL = preload("res://addons/ez_sound/popup_label.tscn")
 const USER_SETTING_PATH = "ez_sound/ez_sound_path"
+const USER_SETTING_RANDOMIZE_PITCH = "ez_sound/ez_sound_randomize_pitch"
+const USER_SETTING_RAND_PITCH_MIN = "ez_sound/ez_sound_rand_pitch_min"
+const USER_SETTING_RAND_PITCH_MAX = "ez_sound/ez_sound_rand_pitch_max"
 
 var selected_sound_button = null
 var selected_sound_filename = ""
@@ -31,11 +37,16 @@ func show_popup_message(pos, message):
 
 
 func _ready():
+	set_process_input(false)
 	set_process(false)
+	button_pitch_randomize.pressed.connect(_on_pitch_randomize_pressed)
+	spin_pitch_max.value_changed.connect(_on_pitch_max_changed)
+	spin_pitch_min.value_changed.connect(_on_pitch_min_changed)
 	filedialog.hide()
 	filedialog.dir_selected.connect(_on_dir_selected)
 	btn_reload.pressed.connect(_on_reload_pressed)
 	button_copy.pressed.connect(_on_copy_pressed)
+	button_pause.pressed.connect(_on_pause_pressed)
 	btn_dir.pressed.connect(_on_set_dir_pressed)
 	stream_bar.gui_input.connect(_on_stream_bar_gui)
 	self.resized.connect(update_stream_bar)
@@ -43,7 +54,31 @@ func _ready():
 	scroll.scroll_ended.connect(update_stream_bar)
 	label_dir.text = ProjectSettings.get_setting(USER_SETTING_PATH, "No Sounds Dir Set")
 	_on_reload_pressed()
+	
+	button_pitch_randomize.button_pressed = ProjectSettings.get_setting(USER_SETTING_RANDOMIZE_PITCH, false)
+	_on_pitch_randomize_pressed()
+	set_process_input(true)
 	pass
+
+
+func _on_pitch_max_changed(v):
+	ProjectSettings.set_setting(USER_SETTING_RAND_PITCH_MAX, spin_pitch_max.value)
+
+func _on_pitch_min_changed(v):
+	ProjectSettings.set_setting(USER_SETTING_RAND_PITCH_MIN, spin_pitch_min.value)
+
+
+func _on_pitch_randomize_pressed():
+	if button_pitch_randomize.button_pressed == true:
+		ProjectSettings.set_setting(USER_SETTING_RANDOMIZE_PITCH, true)
+		ProjectSettings.set_setting(USER_SETTING_RAND_PITCH_MIN, spin_pitch_min.value)
+		ProjectSettings.set_setting(USER_SETTING_RAND_PITCH_MAX, spin_pitch_max.value)
+		spin_pitch_max.show()
+		spin_pitch_min.show()
+	else:
+		spin_pitch_max.hide()
+		spin_pitch_min.hide()
+
 
 func _on_set_dir_pressed():
 	filedialog.show()
@@ -65,6 +100,11 @@ func _on_copy_pressed():
 	return
 
 
+func _on_pause_pressed():
+	sp.playing = false
+	return
+
+
 func _input(ev):
 	update_stream_bar()
 
@@ -74,6 +114,7 @@ func _on_reload_pressed():
 	selected_sound_filename = ""
 	stream_bar.hide()
 	button_copy.hide()
+	button_pause.hide()
 	label_no_sounds.hide()
 	label_no_dir.hide()
 	for each in sound_list.get_children():
@@ -127,6 +168,7 @@ func create_sound_button(display_name, file_path, extension):
 
 func _on_sound_button_pressed(sound_button, file_path):
 	button_copy.show()
+	button_pause.show()
 	selected_sound_button = sound_button
 	selected_sound_filename = file_path
 	await get_tree().process_frame
@@ -159,6 +201,10 @@ func update_stream_bar():
 		button_copy.global_position.y = selected_sound_button.global_position.y + 3
 		button_copy.global_position.x = selected_sound_button.global_position.x + selected_sound_button.size.x - button_copy.size.x - 3
 
+		button_pause.size.y = (selected_sound_button.size.y / 2) - 6
+		button_pause.size.x = button_copy.size.y
+		button_pause.global_position.y = selected_sound_button.global_position.y + 3
+		button_pause.global_position.x = button_copy.global_position.x - button_copy.size.x - 10
 
 func list_files_in_directory(path):
 	var files = []
