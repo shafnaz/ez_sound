@@ -8,6 +8,7 @@ For fast and easy implementation of sound for your projects.
 - Sample preview image.
 - A button to copy a function call to play the selected music. Then you can simple paste this code anywhere in your script editor.
 - One-click playback interaction for all sound files.
+- randomize pitch
 
 ## Installation
 Instructions on how to install the addon:
@@ -30,4 +31,3 @@ MIT.
 - Drag & drop into script editor.
 - Improve/fix the generated sample preview images.
 - Panel to browse an external sound folder for easy importing.
-- Fix the strange "Node not found" error message that shows after the dock is added. It doesn't harm the usability though.
